@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DBTestModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Band_Song">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Band_id" Type="int" Nullable="false" />
+    <Property Name="Song_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Bands">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Songs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="256" />
+    <Property Name="Path" Type="nvarchar" MaxLength="256" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__Band_Song__Band___5070F446">
+    <End Role="Bands" Type="Self.Bands" Multiplicity="1" />
+    <End Role="Band_Song" Type="Self.Band_Song" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bands">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Band_Song">
+        <PropertyRef Name="Band_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Band_Song__Song___5165187F">
+    <End Role="Songs" Type="Self.Songs" Multiplicity="1" />
+    <End Role="Band_Song" Type="Self.Band_Song" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Songs">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Band_Song">
+        <PropertyRef Name="Song_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DBTestModelStoreContainer">
+    <EntitySet Name="Band_Song" EntityType="Self.Band_Song" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Bands" EntityType="Self.Bands" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Songs" EntityType="Self.Songs" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Band_Song__Band___5070F446" Association="Self.FK__Band_Song__Band___5070F446">
+      <End Role="Bands" EntitySet="Bands" />
+      <End Role="Band_Song" EntitySet="Band_Song" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Band_Song__Song___5165187F" Association="Self.FK__Band_Song__Song___5165187F">
+      <End Role="Songs" EntitySet="Songs" />
+      <End Role="Band_Song" EntitySet="Band_Song" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

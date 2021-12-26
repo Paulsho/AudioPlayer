@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DBTestModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Band_Song">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Band_id" Type="int" Nullable="false" />
+          <Property Name="Song_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Bands">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Songs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" />
+          <Property Name="Path" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Band_Song__Band___5070F446">
+          <End Role="Bands" Type="Self.Bands" Multiplicity="1" />
+          <End Role="Band_Song" Type="Self.Band_Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bands">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Band_Song">
+              <PropertyRef Name="Band_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Band_Song__Song___5165187F">
+          <End Role="Songs" Type="Self.Songs" Multiplicity="1" />
+          <End Role="Band_Song" Type="Self.Band_Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Songs">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Band_Song">
+              <PropertyRef Name="Song_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBTestModelStoreContainer">
+          <EntitySet Name="Band_Song" EntityType="Self.Band_Song" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Bands" EntityType="Self.Bands" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Songs" EntityType="Self.Songs" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Band_Song__Band___5070F446" Association="Self.FK__Band_Song__Band___5070F446">
+            <End Role="Bands" EntitySet="Bands" />
+            <End Role="Band_Song" EntitySet="Band_Song" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Band_Song__Song___5165187F" Association="Self.FK__Band_Song__Song___5165187F">
+            <End Role="Songs" EntitySet="Songs" />
+            <End Role="Band_Song" EntitySet="Band_Song" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DBTestModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Band_Song">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Band_id" Type="Int32" Nullable="false" />
+          <Property Name="Song_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Band" Relationship="Self.FK__Band_Song__Band___5070F446" FromRole="Band_Song" ToRole="Bands" />
+          <NavigationProperty Name="Song" Relationship="Self.FK__Band_Song__Song___5165187F" FromRole="Band_Song" ToRole="Songs" />
+        </EntityType>
+        <EntityType Name="Band">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Band_Song" Relationship="Self.FK__Band_Song__Band___5070F446" FromRole="Bands" ToRole="Band_Song" />
+        </EntityType>
+        <EntityType Name="Song">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Path" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Band_Song" Relationship="Self.FK__Band_Song__Song___5165187F" FromRole="Songs" ToRole="Band_Song" />
+        </EntityType>
+        <Association Name="FK__Band_Song__Band___5070F446">
+          <End Role="Bands" Type="Self.Band" Multiplicity="1" />
+          <End Role="Band_Song" Type="Self.Band_Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bands">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Band_Song">
+              <PropertyRef Name="Band_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Band_Song__Song___5165187F">
+          <End Role="Songs" Type="Self.Song" Multiplicity="1" />
+          <End Role="Band_Song" Type="Self.Band_Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Songs">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Band_Song">
+              <PropertyRef Name="Song_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBTestEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Band_Song" EntityType="Self.Band_Song" />
+          <EntitySet Name="Bands" EntityType="Self.Band" />
+          <EntitySet Name="Songs" EntityType="Self.Song" />
+          <AssociationSet Name="FK__Band_Song__Band___5070F446" Association="Self.FK__Band_Song__Band___5070F446">
+            <End Role="Bands" EntitySet="Bands" />
+            <End Role="Band_Song" EntitySet="Band_Song" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Band_Song__Song___5165187F" Association="Self.FK__Band_Song__Song___5165187F">
+            <End Role="Songs" EntitySet="Songs" />
+            <End Role="Band_Song" EntitySet="Band_Song" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DBTestModelStoreContainer" CdmEntityContainer="DBTestEntities">
+          <EntitySetMapping Name="Band_Song">
+            <EntityTypeMapping TypeName="DBTestModel.Band_Song">
+              <MappingFragment StoreEntitySet="Band_Song">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Band_id" ColumnName="Band_id" />
+                <ScalarProperty Name="Song_id" ColumnName="Song_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Bands">
+            <EntityTypeMapping TypeName="DBTestModel.Band">
+              <MappingFragment StoreEntitySet="Bands">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Songs">
+            <EntityTypeMapping TypeName="DBTestModel.Song">
+              <MappingFragment StoreEntitySet="Songs">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Path" ColumnName="Path" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

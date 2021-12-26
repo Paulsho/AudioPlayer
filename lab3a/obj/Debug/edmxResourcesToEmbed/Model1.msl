@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DBTestModelStoreContainer" CdmEntityContainer="DBTestEntities">
+    <EntitySetMapping Name="Band_Song">
+      <EntityTypeMapping TypeName="DBTestModel.Band_Song">
+        <MappingFragment StoreEntitySet="Band_Song">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Band_id" ColumnName="Band_id" />
+          <ScalarProperty Name="Song_id" ColumnName="Song_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Bands">
+      <EntityTypeMapping TypeName="DBTestModel.Band">
+        <MappingFragment StoreEntitySet="Bands">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Songs">
+      <EntityTypeMapping TypeName="DBTestModel.Song">
+        <MappingFragment StoreEntitySet="Songs">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Path" ColumnName="Path" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

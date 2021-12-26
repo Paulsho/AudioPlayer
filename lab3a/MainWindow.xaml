@@ -1,0 +1,179 @@
+﻿<Window x:Class="lab3a.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:lab3a"
+        mc:Ignorable="d"
+        Title="AudioPlayer" MinWidth="450" MinHeight="110" SizeToContent="WidthAndHeight">
+
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Open" CanExecute="btnOpen_CanExecute" Executed="btnOpen_Executed" />
+        <CommandBinding Command="MediaCommands.Play" CanExecute="btnPlay_CanExecute" Executed="btnPlay_Executed" />
+        <CommandBinding Command="MediaCommands.Pause" CanExecute="btnPause_CanExecute" Executed="btnPause_Executed" />
+        <CommandBinding Command="MediaCommands.Stop" CanExecute="btnStop_CanExecute" Executed="btnStop_Executed" />
+        <CommandBinding Command="MediaCommands.NextTrack" CanExecute="btnNext_CanExecute" Executed="btnNext_Executed" />
+        <CommandBinding Command="MediaCommands.PreviousTrack" CanExecute="btnPrevious_CanExecute" Executed="btnPrevious_Executed" />
+        <CommandBinding Command="MediaCommands.TogglePlayPause" CanExecute="playPause_CanExecute" Executed="playPause_Executed" />
+    </Window.CommandBindings>
+
+    <Window.InputBindings>
+        <KeyBinding Key="Space" Command="MediaCommands.TogglePlayPause"/>
+    </Window.InputBindings>
+
+    <Window.Resources>
+        <Style TargetType="Grid" >
+
+            <Style.Setters>
+                <Setter Property="RenderTransformOrigin" Value="0.5 0.5"></Setter>
+            </Style.Setters>
+
+        </Style>
+
+        <Style x:Key="SongProgress" >
+
+        </Style>
+
+        <Style TargetType="Button" >
+
+            <Style.Setters>
+
+                <Setter Property="Margin" Value="10 0 10 0"></Setter>
+                <Setter Property="Background" Value="Transparent"></Setter>
+                <Setter Property="MaxHeight" Value="30"></Setter>
+                <Setter Property="MinHeight" Value="10"></Setter>
+                <Setter Property="BorderBrush" Value="Transparent"></Setter>
+                <Setter Property="Foreground" Value="AntiqueWhite"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid Background="{TemplateBinding Background}">
+                                <ContentPresenter x:Name="MyContentPresenter" 
+                                          Content="{TemplateBinding Content}"
+                                          HorizontalAlignment="Center" 
+                                          VerticalAlignment="Center"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+
+            </Style.Setters>
+
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5" />
+                </Trigger>
+            </Style.Triggers>
+
+        </Style>
+
+    </Window.Resources>
+
+    <Grid MouseWheel="Grid_MouseWheel" Background="#2e2e2e" >
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*" />
+            <RowDefinition Height="1*" MinHeight="40"/>
+            <RowDefinition Height="1*" MinHeight="30"/>
+        </Grid.RowDefinitions>
+
+        <!--cover + songlist-->
+        <Grid Margin="10" Grid.Row="0" Background="#171717" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Image Margin="10" Grid.Column="0" Name="image" Stretch="Uniform"  MaxWidth="600" MaxHeight="600" />
+            <!--<ListBox Margin="0 10 10 10" Grid.Column="1" Name="songList" SelectionChanged="songList_SelectionChanged" Foreground="AntiqueWhite" Background="#171717" />-->
+
+            <Grid Grid.Column="1"
+                DataContext="{Binding ElementName=songList, Path=SelectedItem}" Background="Wheat">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <ListBox Name="songList" SelectionChanged="songList_SelectionChanged" 
+                    Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                    Margin="0,0,0,3"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    ItemsSource="{Binding}" >
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0} - {1}">
+                                        <Binding Path="Band" />
+                                        <Binding Path="Name" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <TextBlock Grid.Row="1" Margin="0,0,5,0">Id:</TextBlock>
+                <TextBox Grid.Row="1" Grid.Column="2"
+                         Text="{Binding Path=Id, Mode=OneWay}"
+                         IsReadOnly="True" />
+
+                <TextBlock Grid.Row="2" Margin="0,0,5,0">Song name:</TextBlock>
+                <TextBox Grid.Row="2" Grid.Column="2" 
+                         Text="{Binding Path=Name, Mode=OneWay}"
+                         IsReadOnly="True" />
+
+                <TextBlock Grid.Row="3" Margin="0,0,5,0">Band name:</TextBlock>
+                <TextBox Grid.Row="3" Grid.Column="2" 
+                         Text="{Binding Path=Band, Mode=OneWay}"
+                         IsReadOnly="True" />
+
+                <TextBlock Grid.Row="4" Margin="0,0,5,0">Path:</TextBlock>
+                <TextBox Grid.Row="4" Grid.Column="2" 
+                         Text="{Binding Path=Path, Mode=OneWay}"
+                         IsReadOnly="True" 
+                         Name="songPath"/>
+            </Grid>
+
+        </Grid>
+
+        <!--progress bar-->
+        <Grid Margin="10 0 10 0" Grid.Row="1" Background="#2e2e2e" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Name="lblStatus" Content="00:00 / 00:00" HorizontalContentAlignment="Center" VerticalAlignment="Center" Margin="5" Foreground="AntiqueWhite"/>
+            <Slider Grid.Column="1" Name="sliderSongProgress" Margin="3" Thumb.DragStarted="sliderSongProgress_DragStarted"  Thumb.DragCompleted="sliderSongProgress_DragCompleted" ValueChanged="sliderSongProgress_ValueChanged"  VerticalAlignment="Center" />
+        </Grid>
+
+        <!--buttons-->
+        <WrapPanel Margin="10 0 10 10" Grid.Row="2" HorizontalAlignment="Center" Background="#2e2e2e" >
+            <Button Name="btnOpenAudioFile" Style="{x:Null}" Command="ApplicationCommands.Open" Padding="5 0 5 0" Height="30" VerticalAlignment="Center">Open Audio files</Button>
+            <Button Name="btnPlay" Command="MediaCommands.Play" ToolTip="Play">
+                <Path Data="F0 M0, 0 L25, 15 0, 30Z" StrokeThickness="1" Stroke="LightGray" Fill="White"/>
+            </Button>
+            <Button Name="btnPause" Command="MediaCommands.Pause" ToolTip="Pause">
+                <Image Source="Images/Pause.png"/>
+            </Button>
+            <Button Name="btnStop" Command="MediaCommands.Stop" ToolTip="Stop">
+                <Image Source="Images/Stop.png"/>
+            </Button>
+            <Button Name="btnPrevious" Command="MediaCommands.PreviousTrack" ToolTip="Previous">
+                <Image Source="Images/Previous.png"/>
+            </Button>
+            <Button Name="btnNext" Command="MediaCommands.NextTrack" ToolTip="Next">
+                <Image Source="Images/Next.png"/>
+            </Button>
+            <Slider Name="sliderVolume" Minimum="0" Maximum="1" Width="70" ValueChanged="sliderVolume_ValueChanged" VerticalAlignment="Center" ToolTip="Volume"/>
+            <Button Name="btnRefresh" Style="{x:Null}"  Click="btnRefresh_Click"  Padding="5 0 5 0" Height="30" VerticalAlignment="Center">Refresh</Button>
+        </WrapPanel>
+
+    </Grid>
+</Window>
